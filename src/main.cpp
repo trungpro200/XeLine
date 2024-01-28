@@ -32,7 +32,6 @@ void setSpeed(int speed = default_speed){
   frontLeft.setSpeed(default_speed);//động cơ bị yếu
 }
 void goStraight(){
-  setSpeed(default_speed/2);
   backRight.run(FORWARD);
   frontRight.run(FORWARD);
   backLeft.run(FORWARD);
@@ -70,11 +69,15 @@ void stop(){
 }
 // Black = 1, White = 0
 void adjust(){
-  if (!MIDDLE){
+  if (MIDDLE){
     if (LEFT&&RIGHT){
-      goStraight();
+      stop();
+      return;
     }
-    else if (LEFT){
+    goStraight();
+  }
+  else if (!MIDDLE){
+    if (LEFT){
       turnLeft();
     } else if (RIGHT){
       turnRight();
@@ -82,20 +85,12 @@ void adjust(){
       lastAction();
     }
   }
-  else if (MIDDLE){
-    if (LEFT&&RIGHT){
-      stop();
-      return;
-    }
-    goStraight();
-  }
 }
 
 void setup(){
   Serial.begin(9600);
   setSpeed();
-  // backLeft.run(FORWARD);
-  // goStraight();
+
 
   pinMode(IN_1, INPUT_PULLUP);
   pinMode(IN_2, INPUT_PULLUP);
